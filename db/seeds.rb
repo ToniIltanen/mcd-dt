@@ -8,3 +8,10 @@
 
 units = Unit.create([{name: 'Rauma'},{name: 'Pori'},{name: 'Raisio'},{name: 'Turku'},{name: 'Hämppi'},{name: 'Kaukajärvi'},{name: 'Lielahti'},{name: 'Jäähovi'}])
 dayparts = Daypart.create([{name: 'Aamu'}, {name: 'Päivä'}, {name: 'Ilta'}, {name: 'Yö'}])
+User.new({
+    firstname: "Toni",
+    lastname: "Iltanen"
+    email: "toni.iltanen@codecontrol.fi",
+    password: 'mcdpass',
+    password_confirmation: 'mcdpass'
+}).save
