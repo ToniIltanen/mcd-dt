@@ -13,5 +13,6 @@ User.new({
     lastname: "Iltanen",
     email: "toni.iltanen@codecontrol.fi",
     password: 'mcdpass',
-    password_confirmation: 'mcdpass'
+    password_confirmation: 'mcdpass',
+    admin: true
 }).save
