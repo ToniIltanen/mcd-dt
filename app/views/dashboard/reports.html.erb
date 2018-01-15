@@ -5,7 +5,7 @@
       <h3>Koosteraportti</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
-      <% if @dt.group_by_day(:day).present? %>
+      <% if @dt.present? %>
         <%= area_chart @dt.group_by_day(:day).average("minutes * 60 + seconds") %>
       <% else %>
         <span style="text:center;">Ei tietoja</span>
@@ -17,7 +17,7 @@
       <h3>Aamuraportti</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
-      <% if @morning.group_by_day(:day).present? %>
+      <% if @morning.present? %>
         <%= area_chart @morning.group_by_day(:day).sum("minutes * 60 + seconds") %>
       <% else %>
         <span style="text:center;">Ei tietoja</span>
@@ -29,7 +29,7 @@
       <h3>Päiväraportti</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
-      <% if @day.group_by_day(:day).present? %>
+      <% if @day.present? %>
         <%= area_chart @day.group_by_day(:day).sum("minutes * 60 + seconds") %>
       <% else %>
         <span style="text:center;">Ei tietoja</span>
@@ -41,7 +41,7 @@
       <h3>iltaraportti</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
-      <% if @evening.group_by_day(:day).present? %>
+      <% if @evening.present? %>
         <%= area_chart @evening.group_by_day(:day).sum("minutes * 60 + seconds") %>
       <% else %>
         <span style="text:center;">Ei tietoja</span>
@@ -53,7 +53,7 @@
       <h3>Yöraportti</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
-      <% if @night.group_by_day(:day).present? %>
+      <% if @night.present? %>
         <%= area_chart @night.group_by_day(:day).sum("minutes * 60 + seconds") %>
       <% else %>
        <span style="text:center;">Ei tietoja</span>
