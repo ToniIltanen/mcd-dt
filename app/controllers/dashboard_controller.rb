@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
     @unit = Unit.find_by(name: params[:name])
     @dtinfo = Dtinfo.new
   end
-  def raports
+  def reports
     @unit = Unit.find_by(name: params[:name])
     @dt = Dtinfo.where(:unit_id => @unit.id).where("day > ?", Time.now-31.days)
     @morning = Dtinfo.where(:unit_id => @unit.id, :daypart_id => 1).where("day > ?", Time.now-31.days)
