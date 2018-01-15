@@ -1,18 +1,56 @@
-FROM ruby:2.3
+FROM ruby:2.4-alpine
 
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
+ENV PATH /root/.yarn/bin:$PATH
 
-RUN mkdir -p /usr/src/app
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh build-base nodejs tzdata
+
+RUN apk update \
+  && apk add curl bash binutils tar gnupg \
+  && rm -rf /var/cache/apk/* \
+  && /bin/bash \
+  && touch ~/.bashrc \
+  && curl -o- -L https://yarnpkg.com/install.sh | bash \
+  && apk del curl tar binutils
+
+# Configure the main working directory. This is the base
+# directory used in any further RUN, COPY, and ENTRYPOINT
+# commands.
 WORKDIR /usr/src/app
 
-ONBUILD COPY Gemfile /usr/src/app/
-ONBUILD COPY Gemfile.lock /usr/src/app/
-ONBUILD RUN bundle install
-ONBUILD COPY . /usr/src/app
+# Copy the Gemfile as well as the Gemfile.lock and install
+# the RubyGems. This is a separate step so the dependencies
+# will be cached unless changes to one of those two files
+# are made.
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler && bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 --without development test
 
-RUN apt-get update && apt-get install -y nodejs --no-install-recommends && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y mysql-client postgresql-client sqlite3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
+# Copy dependencies for Node.js and instance the packages.
+# Again, being separate means this will cache.
+COPY package.json yarn.lock ./
+RUN yarn install
+RUN npm rebuild node-sass --force
 
-EXPOSE 8080
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# Set Rails to run in production
+ENV RAILS_ENV production
+ENV RACK_ENV production
+ENV RAILS_ROOT /usr/src/app
+# Use Rails for static files in public
+ENV RAILS_SERVE_STATIC_FILES 1
+# You must pass environment variable SECRET_KEY_BASE
+ARG SECRET_KEY_BASE
+ENV SECRET_KEY_BASE $SECRET_KEY_BASE
+
+# Copy the main application.
+COPY . ./
+
+# Precompile Rails assets (plus Webpack)
+RUN bundle exec rake assets:precompile
+RUN bundle exec rake db:create
+RUN bundle exec rake db:migrate
+RUN bundle exec rake db:seed
+
+# Will run on port 3000 by default
+EXPOSE 3000
+# Start puma
+CMD bundle exec puma -C config/puma.rb
