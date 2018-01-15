@@ -60,28 +60,46 @@
       <% end %>
     </div>
   </div>
-  <div class="raportcontainer col-xs-12 col-sm-6 col-md-3 col-lg-3">
+  <div class="raportcontainer col-xs-12 col-sm-12 col-md-6 col-lg-3">
     <div class="title">
       <h3>Kuukausikeskiarvo</h3>
     </div>
-    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;padding-bottom: 40px;">
       <% if @dt.where("day > ?", Time.now-30.days).present? %>
-      <div class="raport-circle">
-          <%= Time.at(@dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
-      </div>
+          <div class="raport-data">
+            <div class="real">
+              <%= Time.at(@dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
+            </div>
+            <div class="goal">
+              <% if @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds") > @unit.goal %>
+                  <span class="glyphicon glyphicon-circle-arrow-up" style="font-size:22px;color:red;margin-right:10px;"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds")).to_s %> s</span>
+              <% else %>
+                  <span class="glyphicon glyphicon-circle-arrow-down" style="font-size:22px;color:green;margin-right:10px"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds")).to_s %> s</span>
+              <% end %>
+            </div>
+          </div>
       <% else %>
       <span style="text:center;">Ei tietoja</span>
       <% end %>
     </div>
   </div>
-  <div class="raportcontainer col-xs-12 col-sm-6 col-md-3 col-lg-3">
+  <div class="raportcontainer col-xs-12 col-sm-12 col-md-6 col-lg-3">
     <div class="title">
       <h3>Viikkokeskiarvo</h3>
     </div>
-    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;padding-bottom: 40px;">
       <% if @dt.where("day > ?", Time.now-7.days).present? %>
-      <div class="raport-circle">
+      <div class="raport-data">
+          <div class="real">
           <%= Time.at(@dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
+          </div>
+        <div class="goal">
+          <% if @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds") > @unit.goal %>
+              <span class="glyphicon glyphicon-circle-arrow-up" style="font-size:22px;color:red;margin-right:10px;"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).to_s %> s</span>
+          <% else %>
+              <span class="glyphicon glyphicon-circle-arrow-down" style="font-size:22px;color:green;margin-right:10px"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).to_s %> s</span>
+          <% end %>
+        </div>
       </div>
       <% else %>
           <span style="text:center;">Ei tietoja</span>
