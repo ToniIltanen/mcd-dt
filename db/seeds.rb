@@ -10,7 +10,7 @@ units = Unit.create([{name: 'Rauma'},{name: 'Pori'},{name: 'Raisio'},{name: 'Tur
 dayparts = Daypart.create([{name: 'Aamu'}, {name: 'Päivä'}, {name: 'Ilta'}, {name: 'Yö'}])
 User.new({
     firstname: "Toni",
-    lastname: "Iltanen"
+    lastname: "Iltanen",
     email: "toni.iltanen@codecontrol.fi",
     password: 'mcdpass',
     password_confirmation: 'mcdpass'
