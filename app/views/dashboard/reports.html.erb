@@ -1,24 +1,24 @@
 <span class="breadcrumb-unit"><a href="/">etusivu</a> <span class="glyphicon glyphicon-chevron-right"></span> <a href="/dashboard/<%= @unit.name %>"> <%= @unit.displayname %></a> <span class="glyphicon glyphicon-chevron-right"></span> Raportti</span>
 <section>
-<div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
+  <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
-      <h3>Koosteraportti</h3>
+      <h3>Koosteraportti 1kk</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
       <% if @dt.present? %>
-        <%= area_chart @dt.group_by_day(:day).average("minutes * 60 + seconds") %>
+          <%= area_chart [{name: "Toteutunut", data: @dt.group_by_day(:day).sum("minutes * 60 + seconds")},{name: "Tavoite", data: @range.map{ |c| [c,@unit.goal] }.to_h, library: {lineTension: 0, pointRadius: 0, fill:false}}] %>
       <% else %>
-        <span style="text:center;">Ei tietoja</span>
+          <span style="text:center;">Ei tietoja</span>
       <% end %>
     </div>
-</div>
+  </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
-      <h3>Aamuraportti</h3>
+      <h3>Aamuraportti 1kk</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
       <% if @morning.present? %>
-        <%= area_chart @morning.group_by_day(:day).sum("minutes * 60 + seconds") %>
+        <%= area_chart [{name: "Toteutunut", data: @morning.group_by_day(:day).sum("minutes * 60 + seconds")},{name: "Tavoite", data: @range.map{ |c| [c,@unit.goal] }.to_h, library: {lineTension: 0, pointRadius: 0, fill:false}}] %>
       <% else %>
         <span style="text:center;">Ei tietoja</span>
       <% end %>
@@ -26,11 +26,11 @@
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
-      <h3>Päiväraportti</h3>
+      <h3>Päiväraportti 1kk</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
       <% if @day.present? %>
-        <%= area_chart @day.group_by_day(:day).sum("minutes * 60 + seconds") %>
+        <%= area_chart [{name: "Toteutunut",data: @day.group_by_day(:day).sum("minutes * 60 + seconds")},{name: "Tavoite", data: @range.map{ |c| [c,@unit.goal] }.to_h, library: {lineTension: 0, pointRadius: 0, fill:false}}] %>
       <% else %>
         <span style="text:center;">Ei tietoja</span>
       <% end %>
@@ -38,11 +38,11 @@
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
-      <h3>iltaraportti</h3>
+      <h3>iltaraportti 1kk</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
       <% if @evening.present? %>
-        <%= area_chart @evening.group_by_day(:day).sum("minutes * 60 + seconds") %>
+        <%= area_chart [{name: "Toteutunut",data: @evening.group_by_day(:day).sum("minutes * 60 + seconds")},{name: "Tavoite", data: @range.map{ |c| [c,@unit.goal] }.to_h, library: {lineTension: 0, pointRadius: 0, fill:false}}] %>
       <% else %>
         <span style="text:center;">Ei tietoja</span>
       <% end %>
@@ -50,11 +50,11 @@
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
-      <h3>Yöraportti</h3>
+      <h3>Yöraportti 1kk</h3>
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
       <% if @night.present? %>
-        <%= area_chart @night.group_by_day(:day).sum("minutes * 60 + seconds") %>
+        <%= area_chart [{name: "Toteutunut",data: @night.group_by_day(:day).sum("minutes * 60 + seconds")},{name: "Tavoite", data: @range.map{ |c| [c,@unit.goal] }.to_h, library: {lineTension: 0, pointRadius: 0, fill:false}}] %>
       <% else %>
        <span style="text:center;">Ei tietoja</span>
       <% end %>
@@ -72,9 +72,9 @@
             </div>
             <div class="goal">
               <% if @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds") > @unit.goal %>
-                  <span class="glyphicon glyphicon-circle-arrow-up" style="font-size:22px;color:red;margin-right:10px;"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds")).to_s %> s</span>
+                  <span class="glyphicon glyphicon-circle-arrow-up" style="font-size:22px;color:red;margin-right:10px;"></span><span><%= (-1 * (@unit.goal - @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds").round)).to_s %> s</span>
               <% else %>
-                  <span class="glyphicon glyphicon-circle-arrow-down" style="font-size:22px;color:green;margin-right:10px"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds")).to_s %> s</span>
+                  <span class="glyphicon glyphicon-circle-arrow-down" style="font-size:22px;color:green;margin-right:10px"></span><span><%= (-1 * (@unit.goal - @dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds").round)).to_s %> s</span>
               <% end %>
             </div>
           </div>
@@ -95,9 +95,9 @@
           </div>
         <div class="goal">
           <% if @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds") > @unit.goal %>
-              <span class="glyphicon glyphicon-circle-arrow-up" style="font-size:22px;color:red;margin-right:10px;"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).to_s %> s</span>
+              <span class="glyphicon glyphicon-circle-arrow-up" style="font-size:22px;color:red;margin-right:10px;"></span><span><%= (-1 * (@unit.goal - @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round)).to_s %> s</span>
           <% else %>
-              <span class="glyphicon glyphicon-circle-arrow-down" style="font-size:22px;color:green;margin-right:10px"></span><span><%= (@unit.goal - @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).to_s %> s</span>
+              <span class="glyphicon glyphicon-circle-arrow-down" style="font-size:22px;color:green;margin-right:10px"></span><span><%= (-1 * (@unit.goal - @dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round)).to_s %> s</span>
           <% end %>
         </div>
       </div>

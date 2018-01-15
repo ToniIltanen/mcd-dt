@@ -13,6 +13,9 @@ class DashboardController < ApplicationController
     @day = Dtinfo.where(:unit_id => @unit.id, :daypart_id => 2).where("day > ?", Time.now-31.days)
     @evening = Dtinfo.where(:unit_id => @unit.id, :daypart_id => 3).where("day > ?", Time.now-31.days)
     @night = Dtinfo.where(:unit_id => @unit.id, :daypart_id => 4).where("day > ?", Time.now-31.days)
+    date_from = Time.now-31.days
+    date_to = Time.now
+    @range = (date_from.to_date..date_to.to_date).to_a
   end
 
   def save_data
