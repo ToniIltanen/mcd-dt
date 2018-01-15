@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-units = Unit.create([{name: 'Rauma'},{name: 'Pori'},{name: 'Raisio'},{name: 'Turku'},{name: 'Hämppi'},{name: 'Kaukajärvi'},{name: 'Lielahti'},{name: 'Jäähovi'}])
+units = Unit.create([{name: 'Rauma', displayname: 'Rauma'},{name: 'Pori', displayname: 'Pori'},{name: 'Raisio', displayname: 'Raisio'},{name: 'Turku', displayname: 'Turku'},{name: 'Hamppi', displayname: 'Hämppi'},{name: 'Kaukajarvi', displayname: 'Kaukajärvi'},{name: 'Lielahti', displayname: 'Lielahti'},{name: 'Jaahovi', displayname: 'Jäähovi'}])
 dayparts = Daypart.create([{name: 'Aamu'}, {name: 'Päivä'}, {name: 'Ilta'}, {name: 'Yö'}])
 User.new({
     firstname: "Toni",
