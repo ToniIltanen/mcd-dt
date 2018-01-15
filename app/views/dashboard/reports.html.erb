@@ -1,67 +1,91 @@
 <span class="breadcrumb-unit"><a href="/">etusivu</a> <span class="glyphicon glyphicon-chevron-right"></span> <a href="/dashboard/<%= @unit.name %>"> <%= @unit.displayname %></a> <span class="glyphicon glyphicon-chevron-right"></span> Raportti</span>
-<% if @dt.present? %>
 <section>
 <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
-      <h3>Päiväraportti</h3>
+      <h3>Koosteraportti</h3>
     </div>
-    <div class="raport">
-      <%= area_chart @dt.group_by_day(:day).average("minutes * 60 + seconds") %>
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+      <% if @dt.group_by_day(:day).present? %>
+        <%= area_chart @dt.group_by_day(:day).average("minutes * 60 + seconds") %>
+      <% else %>
+        <span style="text:center;">Ei tietoja</span>
+      <% end %>
     </div>
 </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
       <h3>Aamuraportti</h3>
     </div>
-    <div class="raport">
-      <%= area_chart @morning.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+      <% if @morning.group_by_day(:day).present? %>
+        <%= area_chart @morning.group_by_day(:day).sum("minutes * 60 + seconds") %>
+      <% else %>
+        <span style="text:center;">Ei tietoja</span>
+      <% end %>
     </div>
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
       <h3>Päiväraportti</h3>
     </div>
-    <div class="raport">
-      <%= area_chart @day.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+      <% if @day.group_by_day(:day).present? %>
+        <%= area_chart @day.group_by_day(:day).sum("minutes * 60 + seconds") %>
+      <% else %>
+        <span style="text:center;">Ei tietoja</span>
+      <% end %>
     </div>
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
       <h3>iltaraportti</h3>
     </div>
-    <div class="raport">
-      <%= area_chart @evening.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+      <% if @evening.group_by_day(:day).present? %>
+        <%= area_chart @evening.group_by_day(:day).sum("minutes * 60 + seconds") %>
+      <% else %>
+        <span style="text:center;">Ei tietoja</span>
+      <% end %>
     </div>
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="title">
       <h3>Yöraportti</h3>
     </div>
-    <div class="raport">
-      <%= area_chart @night.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+      <% if @night.group_by_day(:day).present? %>
+        <%= area_chart @night.group_by_day(:day).sum("minutes * 60 + seconds") %>
+      <% else %>
+       <span style="text:center;">Ei tietoja</span>
+      <% end %>
     </div>
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-3 col-lg-3">
     <div class="title">
       <h3>Kuukausikeskiarvo</h3>
     </div>
-    <div class="raport">
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+      <% if @dt.where("day > ?", Time.now-30.days).present? %>
       <div class="raport-circle">
-        <%= Time.at(@dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
+          <%= Time.at(@dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
       </div>
+      <% else %>
+      <span style="text:center;">Ei tietoja</span>
+      <% end %>
     </div>
   </div>
   <div class="raportcontainer col-xs-12 col-sm-6 col-md-3 col-lg-3">
     <div class="title">
       <h3>Viikkokeskiarvo</h3>
     </div>
-    <div class="raport">
+    <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
+      <% if @dt.where("day > ?", Time.now-7.days).present? %>
       <div class="raport-circle">
-        <%= Time.at(@dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
+          <%= Time.at(@dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
       </div>
+      <% else %>
+          <span style="text:center;">Ei tietoja</span>
+      <% end %>
     </div>
   </div>
-<% else %>
-    <div class="alert alert-danger" style="margin-top: 25px;">Yksikölle ei ole syötetty tietoja.</div>
-<% end %>
 </section>

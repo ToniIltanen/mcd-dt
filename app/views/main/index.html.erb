@@ -2,3 +2,6 @@
   <%= render 'layouts/unit', unit: unit %>
 <% end %>
 
+<% if flash[:notice] %>
+    <div style="display:none"><%= flash[:notice] %></div>
+<% end %>
