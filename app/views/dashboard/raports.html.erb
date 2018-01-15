@@ -1,0 +1,65 @@
+<span class="breadcrumb-unit"><a href="/">etusivu</a> <span class="glyphicon glyphicon-chevron-right"></span> <a href="/dashboard/<%= @unit.name %>"> <%= @unit.name %></a> <span class="glyphicon glyphicon-chevron-right"></span> Raportti</span>
+
+<section>
+<div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="title">
+      <h3>Päiväraportti</h3>
+    </div>
+    <div class="raport">
+      <%= area_chart @dt.group_by_day(:day).average("minutes * 60 + seconds") %>
+    </div>
+</div>
+  <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="title">
+      <h3>Aamuraportti</h3>
+    </div>
+    <div class="raport">
+      <%= area_chart @morning.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    </div>
+  </div>
+  <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="title">
+      <h3>Päiväraportti</h3>
+    </div>
+    <div class="raport">
+      <%= area_chart @day.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    </div>
+  </div>
+  <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="title">
+      <h3>iltaraportti</h3>
+    </div>
+    <div class="raport">
+      <%= area_chart @evening.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    </div>
+  </div>
+  <div class="raportcontainer col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="title">
+      <h3>Yöraportti</h3>
+    </div>
+    <div class="raport">
+      <%= area_chart @night.group_by_day(:day).sum("minutes * 60 + seconds") %>
+    </div>
+  </div>
+  <div class="raportcontainer col-xs-12 col-sm-6 col-md-3 col-lg-3">
+    <div class="title">
+      <h3>Kuukausikeskiarvo</h3>
+    </div>
+    <div class="raport">
+      <div class="raport-circle">
+        <%= Time.at(@dt.where("day > ?", Time.now-30.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
+      </div>
+    </div>
+  </div>
+  <div class="raportcontainer col-xs-12 col-sm-6 col-md-3 col-lg-3">
+    <div class="title">
+      <h3>Viikkokeskiarvo</h3>
+    </div>
+    <div class="raport">
+      <div class="raport-circle">
+        <%= Time.at(@dt.where("day > ?", Time.now-7.days).average("minutes * 60 + seconds").round).utc.strftime("%M:%S") %>
+      </div>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,2 @@
+class Daypart < ApplicationRecord
+end

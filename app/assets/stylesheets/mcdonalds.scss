@@ -1,0 +1,149 @@
+@import "variables";
+html, body {
+  font-family: "Tahoma";
+  width:100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page-content {
+  margin-top:20px;
+}
+
+.container {
+  margin: 0 !important;
+}
+
+.login {
+  background-color: #fff;
+  border: 2px solid #440d0d;
+  padding: 0px;
+}
+.login-content {
+  text-align:center;
+  padding:20px;
+}
+
+.dialog {
+  background-color: #fff;
+  border: 2px solid #440d0d;
+  padding: 0px;
+}
+
+.dialog-content {
+  padding:20px;
+}
+
+.title {
+  padding-top:10px;
+  padding-bottom:10px;
+  color: $title-color;
+  font-size: 0.8rem;
+  background-color: $title-background;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+
+
+.header-color {
+  color: wheat;
+}
+
+.navbar {
+  border-radius: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.mainlink a span {
+  font-size: 200px;
+  text-align: center;
+  display: block;
+  padding-top: 20px;
+  padding-bottom:20px;
+}
+.mainlink a {
+  text-decoration: none;
+}
+
+.raportcontainer {
+  margin-top:25px;
+}
+
+.mainlink {
+  max-width: 500px;
+  margin-top: 25px;
+
+}
+
+.mainlink span {
+  background-color: #ffF;
+}
+
+.mainlink:hover span {
+  background-color: darken( #fff, 10% ) !important;
+}
+
+.mainlink:hover .title {
+  background-color: darken( $title-background, 10% ) !important;
+}
+
+.unit {
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.unit a {
+  text-decoration: none;
+}
+
+.unit a:hover .title{
+  background-color: darken( $title-background, 10% ) !important;
+}
+
+.breadcrumb {
+  background-color: #f1ddb0;
+  border-bottom: 2px solid;
+  padding: 10px;
+}
+
+.breadcrumb-unit {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: $title-color;
+  font-weight:bold;
+  margin-left:10px;
+}
+
+/*IE Image blue border fix*/
+a img {
+  border: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.raport {
+  background-color: #fff;
+  display: inline-block;
+  width: 100%;
+  padding-bottom:20px;
+  max-height: 395px;
+}
+
+.col-centered{
+  float: none;
+  margin: 25px auto;
+}
+
+.raport-circle {
+  border-radius: 50%;
+  border: 20px solid $title-color;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-top:20px;
+  width: 100%;
+  text-align: center;
+  font-size: 100px;
+}

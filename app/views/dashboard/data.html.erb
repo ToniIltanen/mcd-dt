@@ -1,0 +1,48 @@
+<span class="breadcrumb-unit"><a href="/">etusivu</a> <span class="glyphicon glyphicon-chevron-right"></span> <a href="/dashboard/<%= @unit.name %>"> <%= @unit.name %></a> <span class="glyphicon glyphicon-chevron-right"></span> Tiedonsyöttö</span>
+
+<div class="dialog center col-xs-12 col-sm-8 col-md-8 col-lg-4 col-centered">
+  <div class="title">
+    <h3>Tiedonsyöttö</h3>
+  </div>
+  <div class="dialog-content">
+    <% if flash[:notice] %>
+        <div class="alert alert-success"><%= flash[:notice] %></div>
+    <% end %>
+    <%= form_for @dtinfo, url: '/dashboard/' + @unit.name  + '/save_data'  do |f| %>
+        <% if @dtinfo.errors.any? %>
+            <div class="alert alert-danger">
+              <h2>
+                <%= @dtinfo.errors.count.to_s + ' virhettä esti tietoa tallentumasta:' %>
+              </h2>
+
+              <ul>
+                <% @dtinfo.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+        <div class="form-group">
+          <%= f.label "Yksikkö" %>
+          <%= f.collection_select :unit_id, Unit.all, :id, :name, {:selected => @unit.id}, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Päivämäärä" %>
+           <%= f.date_field :day, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+            <%= f.label "Päivänosa" %>
+            <%= f.collection_select :daypart_id, Daypart.all, :id, :name, {},class: 'form-control' %>
+          </div>
+        <div class="form-group">
+          <%= f.label "Minuutit" %>
+          <%= f.number_field :minutes, class: 'form-control' %>
+          <%= f.label "Sekunnit" %>
+          <%= f.number_field :seconds, class: 'form-control' %>
+        </div>
+        <div class="actions">
+          <%= f.submit "Tallenna" %>
+        </div>
+    <% end %>
+  </div>
+</div>

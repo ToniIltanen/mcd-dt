@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mcdonalds DT Report</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <%= render "layouts/header" %>
+  <% if(current_user != nil) %>
+    <%= render "layouts/breadcrumb" %>
+  <% end %>
+    <section class="page-content">
+      <%= yield %>
+    </section>
+
+  </body>
+</html>

@@ -1,0 +1,7 @@
+<section class="breadcrumb">
+  <span>Kirjautuneena: <%= current_user.firstname %> <%= current_user.lastname %> (<%= link_to "Kirjaudu ulos", destroy_user_session_path, method: :delete %>)
+  <% if current_user.admin %>
+    <a class="glyphicon glyphicon-cog" href="/admin" style="vertical-align: middle; margin-top:-5px; font-size:18px;"></a>
+  <% end %>
+  </span>
+</section>
