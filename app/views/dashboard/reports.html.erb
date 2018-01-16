@@ -6,7 +6,7 @@
     </div>
     <div class="raport" style="text-align:center;font-size:32px;padding:20px;">
       <% if @dt.present? %>
-          <%= area_chart [{name: "Toteutunut", data: @dt.group_by_day(:day).sum("minutes * 60 + seconds")},{name: "Tavoite", data: @range.map{ |c| [c,@unit.goal] }.to_h, library: {lineTension: 0, pointRadius: 0, fill:false}}] %>
+          <%= area_chart [{name: "Toteutunut", data: @dt.group_by_day(:day).average("minutes * 60 + seconds")},{name: "Tavoite", data: @range.map{ |c| [c,@unit.goal] }.to_h, library: {lineTension: 0, pointRadius: 0, fill:false}}] %>
       <% else %>
           <span style="text:center;">Ei tietoja</span>
       <% end %>
